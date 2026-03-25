@@ -19,6 +19,14 @@ class SqlAlchemyUserRepository(IUserRepository):
         self.session.add(db_user)
         self.session.commit()
 
+    def get_all_users(self):
+        users_list = []
+        model_users = self.session.query(UserModel).all()
+        for user in model_users:
+            select_user = User(user.id, user.name, user.email)
+            users_list.append(select_user)
+        return users_list
+
 
 class SqlAlchemyExpenseRepository(IExpenseRepository):
     def __init__(self, session: Session):
