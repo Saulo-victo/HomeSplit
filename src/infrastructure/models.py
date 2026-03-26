@@ -8,6 +8,7 @@ class UserModel(Base):
     id: Mapped[str] = mapped_column(String, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     expense = relationship('ExpenseModel', back_populates='user')
 
 

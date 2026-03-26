@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from decimal import Decimal
 from enum import Enum
+from fastapi.security import OAuth2
 
 
 class CategoryEnum(str, Enum):
@@ -16,6 +17,7 @@ class CategoryEnum(str, Enum):
 class RequestUserRegister(BaseModel):
     name: str
     email: str
+    password: str
 
 
 class ResponseUser(BaseModel):
@@ -53,3 +55,8 @@ class ResponseExpenseWithNameUser(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

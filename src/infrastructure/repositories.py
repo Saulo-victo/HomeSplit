@@ -15,7 +15,8 @@ class SqlAlchemyUserRepository(IUserRepository):
         db_user = UserModel(
             id=str(user.id),
             name=str(user.name),
-            email=str(user.email)
+            email=str(user.email.value),
+            password=str(user.password)
         )
         self.session.add(db_user)
         self.session.commit()
@@ -24,14 +25,26 @@ class SqlAlchemyUserRepository(IUserRepository):
         users_list = []
         model_users = self.session.query(UserModel).all()
         for user in model_users:
-            select_user = User(user.id, user.name, user.email)
+            select_user = User(user.id, user.name, user.email, user.password)
             users_list.append(select_user)
         return users_list
 
     def get_user_by_id(self, search_id):
         model_user = self.session.query(
             UserModel).filter_by(id=search_id).first()
-        search_user = User(model_user.id, model_user.name, model_user.email)
+        if not model_user:
+            return None
+        search_user = User(model_user.id, model_user.name,
+                           model_user.email, model_user.password)
+        return search_user
+
+    def get_user_by_email(self, email_search):
+        model_user = self.session.query(
+            UserModel).filter_by(email=email_search).first()
+        if not model_user:
+            return None
+        search_user = User(model_user.id, model_user.name,
+                           model_user.email, model_user.password)
         return search_user
 
 

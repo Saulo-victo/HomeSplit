@@ -8,6 +8,7 @@ class User:
     id: str
     name: str
     email: Email
+    password: str
 
 
 @dataclass

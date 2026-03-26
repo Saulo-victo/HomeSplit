@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from src.infrastructure.database import Base, engine
-from src.api.routers import user_route, expense_router
-from src.domain.exceptions import InvalidEmail, InvalidCreateUser, InvalidValue, UserNotFound, ExpenseNotFound
+from src.api.routers import user_route, expense_router, token
+from src.domain.exceptions import InvalidEmail, InvalidCreateUser, InvalidValue, UserNotFound, ExpenseNotFound, UnauthorizedLogin
 from fastapi.responses import JSONResponse
 from http import HTTPStatus
 
@@ -11,6 +11,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 app.include_router(user_route.router)
 app.include_router(expense_router.router)
+app.include_router(token.router)
 
 
 @app.exception_handler(InvalidCreateUser)
@@ -36,3 +37,8 @@ def invalid_value_excpetion_handler(request: Request, exc):
 @app.exception_handler(ExpenseNotFound)
 def expense_not_found_expcetion_handler(request: Request, exc):
     return JSONResponse(status_code=HTTPStatus.BAD_REQUEST, content={'message': str(exc)})
+
+
+@app.exception_handler(UnauthorizedLogin)
+def unauthorized_login_excpetion_handler(request: Request, exc):
+    return JSONResponse(status_code=HTTPStatus.UNAUTHORIZED, content={'message': str(exc)})
