@@ -4,3 +4,11 @@ class InvalidEmail(Exception):
 
 class InvalidValue(Exception):
     pass
+
+
+class InvalidCreateUser(Exception):
+    pass
+
+
+class UserNotFound(Exception):
+    pass

@@ -1,8 +1,9 @@
 from src.infrastructure.database import SessionLocal
 from src.infrastructure.repositories import SqlAlchemyExpenseRepository, SqlAlchemyUserRepository
+from src.domain.interfaces import IUnitOfWork
 
 
-class SqlAlchemyUnitOfWork:
+class SqlAlchemyUnitOfWork(IUnitOfWork):
     def __enter__(self):
         self.session = SessionLocal()
         self.user = SqlAlchemyUserRepository(self.session)
@@ -15,3 +16,4 @@ class SqlAlchemyUnitOfWork:
         else:
             self.session.rollback()
         self.session.close()
+

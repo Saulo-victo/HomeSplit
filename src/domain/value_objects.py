@@ -8,7 +8,7 @@ class Email:
     value: str
 
     def __post_init__(self):
-        if "@" is not self.value:
+        if "@" not in self.value:
             raise InvalidEmail("Email inválido")
 
 

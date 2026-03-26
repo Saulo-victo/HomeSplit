@@ -27,6 +27,12 @@ class SqlAlchemyUserRepository(IUserRepository):
             users_list.append(select_user)
         return users_list
 
+    def get_user_by_id(self, search_id):
+        model_user = self.session.query(
+            UserModel).filter_by(id=search_id).first()
+        search_user = User(model_user.id, model_user.name, model_user.email)
+        return search_user
+
 
 class SqlAlchemyExpenseRepository(IExpenseRepository):
     def __init__(self, session: Session):
@@ -36,7 +42,7 @@ class SqlAlchemyExpenseRepository(IExpenseRepository):
     def save_expense(self, expense: Expense):
         db_expense = ExpenseModel(
             id=str(expense.id),
-            expense_value=Decimal(expense.expense_value),
+            expense_value=Decimal(expense.expense_value.value),
             description=str(expense.description),
             date=str(expense.date),
             category=str(expense.category),
