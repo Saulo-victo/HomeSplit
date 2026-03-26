@@ -21,7 +21,7 @@ class AddExpense:
                 expense_value=Money(expense_data.expense_value),
                 description=expense_data.description,
                 date=datetime.now(),
-                category=expense_data.category,
+                category=expense_data.category.value,
                 id_user=user_register.id
             )
             uow.expense.save_expense(expense)

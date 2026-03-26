@@ -18,3 +18,14 @@ class Expense:
     date: datetime
     category: str
     id_user: str
+
+
+@dataclass
+class ExpenseWithUserName:
+    id: str
+    expense_value: Money
+    description: str
+    date: datetime
+    category: str
+    id_user: str
+    name_user: str

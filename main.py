@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from src.infrastructure.database import Base, engine
 from src.api.routers import user_route, expense_router
-from src.domain.exceptions import InvalidEmail, InvalidCreateUser, InvalidValue, UserNotFound
+from src.domain.exceptions import InvalidEmail, InvalidCreateUser, InvalidValue, UserNotFound, ExpenseNotFound
 from fastapi.responses import JSONResponse
 from http import HTTPStatus
 
@@ -30,4 +30,9 @@ def invalid_value_excpetion_handler(request: Request, exc):
 
 @app.exception_handler(UserNotFound)
 def invalid_value_excpetion_handler(request: Request, exc):
+    return JSONResponse(status_code=HTTPStatus.BAD_REQUEST, content={'message': str(exc)})
+
+
+@app.exception_handler(ExpenseNotFound)
+def expense_not_found_expcetion_handler(request: Request, exc):
     return JSONResponse(status_code=HTTPStatus.BAD_REQUEST, content={'message': str(exc)})

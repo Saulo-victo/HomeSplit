@@ -12,3 +12,7 @@ class InvalidCreateUser(Exception):
 
 class UserNotFound(Exception):
     pass
+
+
+class ExpenseNotFound(Exception):
+    pass

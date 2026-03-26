@@ -1,8 +1,9 @@
-from src.domain.entities import User, Expense
-from sqlalchemy.orm import Session
+from src.domain.entities import User, Expense, ExpenseWithUserName
+from sqlalchemy.orm import Session, joinedload
 from src.domain.interfaces import IExpenseRepository, IUserRepository
 from decimal import Decimal
 from src.infrastructure.models import UserModel, ExpenseModel
+from src.domain.exceptions import ExpenseNotFound
 
 
 class SqlAlchemyUserRepository(IUserRepository):
@@ -53,8 +54,21 @@ class SqlAlchemyExpenseRepository(IExpenseRepository):
 
     def filter_by_category(self, search_category):
         model_expense = self.session.query(
-            ExpenseModel).filter_by(category=search_category).with_for_update().first()
+            ExpenseModel).filter_by(category=search_category).options(joinedload(ExpenseModel.user)).all()
+        expenses = [ExpenseWithUserName(expense.id, expense.expense_value, expense.description,
+                                        expense.date, expense.category, expense.id_user, expense.user.name)for expense in model_expense]
+        return expenses
 
-        query_expense = Expense(model_expense.id, model_expense.expense_value, model_expense.description,
-                                model_expense.date, model_expense.category, model_expense.id_user)
-        return query_expense
+    def get_all_expenses(self):
+        model_expense = self.session.query(
+            ExpenseModel).options(joinedload(ExpenseModel.user)).all()
+        expenses = [ExpenseWithUserName(expense.id, expense.expense_value, expense.description,
+                                        expense.date, expense.category, expense.id_user, expense.user.name)for expense in model_expense]
+        return expenses
+
+    def delete_expense(self, id_expense):
+        model_expense = self.session.query(
+            ExpenseModel).filter_by(id=id_expense).delete()
+        if not model_expense:
+            raise ExpenseNotFound('Despesa não encontrada')
+        self.session.commit()

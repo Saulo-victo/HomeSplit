@@ -18,7 +18,7 @@ class RequestUserRegister(BaseModel):
     email: str
 
 
-class ResponseUserRegister(BaseModel):
+class ResponseUser(BaseModel):
     id: str
     name: str
     email: str
@@ -30,10 +30,26 @@ class RequestExpenseRegister(BaseModel):
     category: CategoryEnum
 
 
-class ResponseExpenseRegister(BaseModel):
+class ResponseExpense(BaseModel):
     id: str
     expense_value: float
     description: str
     date: str
     category: CategoryEnum
     id_user: str
+
+    class Config:
+        from_attributes = True
+
+
+class ResponseExpenseWithNameUser(BaseModel):
+    id: str
+    expense_value: float
+    description: str
+    date: str
+    category: CategoryEnum
+    id_user: str
+    name_user: str
+
+    class Config:
+        from_attributes = True
