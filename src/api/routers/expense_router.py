@@ -53,7 +53,7 @@ def get_all_register_by_category(category: str, use_case=Depends(use_case_get_ex
     return expenses_by_category
 
 
-@router.delete('/{id_expense}', status_code=HTTPStatus.OK)
+@router.delete('/delete/', status_code=HTTPStatus.OK)
 def delete_register_expense(id_expense: str, use_case=Depends(use_case_get_expenses), current_user=Depends(get_current_user)) -> None:
     use_case.execute_delete_expense(id_expense)
     return {'Despesa Excluida'}

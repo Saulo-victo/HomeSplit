@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
-from src.infrastructure.database import Base, engine
 from src.api.routers import user_route, expense_router, token
+from src.infrastructure.database import Base, engine
 from src.domain.exceptions import InvalidEmail, InvalidCreateUser, InvalidValue, UserNotFound, ExpenseNotFound, UnauthorizedLogin
 from fastapi.responses import JSONResponse
 from http import HTTPStatus

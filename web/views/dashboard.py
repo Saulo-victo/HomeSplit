@@ -84,30 +84,56 @@ def dashboard_page():
     df = pd.DataFrame(list_expenses)
 
     if not df.empty:
-        mapping = {
-            "date": "Data",
-            "description": "Descrição",
-            "expense_value": "Valor",
-            "category": "Categoria",
-            "name_user": "Quem Cadastrou"
-        }
-
-        df = df[mapping.keys()].rename(columns=mapping)
-
-        df['Data'] = pd.to_datetime(df['Data']).dt.strftime('%d/%m/%Y')
-
-        st.subheader("Histórico Recente de Despesas")
-        st.dataframe(
-            df,
-            use_container_width=True,
-            hide_index=True,
-            column_config={
-                "Valor": st.column_config.NumberColumn(
-                    "Valor",
-                    format="R$ %.2f",
-                    help="Valor total da despesa"
-                )
+        with st.container(border=True):
+            mapping = {
+                "date": "Data",
+                "description": "Descrição",
+                "expense_value": "Valor",
+                "category": "Categoria",
+                "name_user": "Quem Cadastrou"
             }
-        )
+
+            df_transform = df[mapping.keys()].rename(columns=mapping)
+
+            df_transform['Data'] = pd.to_datetime(
+                df_transform['Data']).dt.strftime('%d/%m/%Y')
+
+            st.subheader("Histórico Recente de Despesas")
+            event = st.dataframe(
+                df_transform,
+                use_container_width=True,
+                hide_index=True,
+                on_select="rerun",
+                selection_mode="single-row",
+                column_config={
+                    "Valor": st.column_config.NumberColumn(
+                        "Valor",
+                        format="R$ %.2f",
+                        help="Valor total da despesa"
+                    )
+                }
+            )
+
+            selected_rows = event.selection.rows
+
+            if selected_rows:
+                index = selected_rows[0]
+                expense_id = df.loc[index]['id']
+                expense_desc = df.loc[index]['description']
+
+                print(expense_desc)
+                print(expense_id)
+
+                st.warning(f"Deseja excluir: **{expense_desc}**?")
+
+                if st.button('Excluir', type='primary'):
+                    response = api_client.delete_expense(token, expense_id)
+
+                    if response.status_code == 200:
+                        st.success("Excluído com sucesso!")
+                        st.rerun()
+                    else:
+                        st.error('Erro ao excluir')
+
     else:
         st.info('Nenhuma despesa encontrada para este mês 🍃')

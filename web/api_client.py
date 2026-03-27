@@ -36,3 +36,12 @@ class HomeSplitApi:
             return response.json()
         else:
             return None
+
+    def delete_expense(self, token, id_expense):
+        header = {
+            "Authorization": f"Bearer {token}"
+        }
+        params = {
+            'id_expense': id_expense
+        }
+        return requests.delete(f'{self.base_url}/expenses/delete/', headers=header, params=params)
