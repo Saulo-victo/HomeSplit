@@ -22,16 +22,17 @@ def register_expense():
         st.subheader("Nova Despesa")
         token = st.session_state["access_token"]
         expense_value = st.number_input('Valor da despesa')
+        payed_date = str(st.date_input('Selecione a data de pagamento'))
         category = st.selectbox('Selecione a categoria da despesa',
                                 types_category['Categorias de despesa'])
         descrption = st.text_area('Descrição da despesa')
         if st.form_submit_button("Cadastrar Despesa"):
             with st.spinner('Cadastrando despesa'):
                 response = api_client.register_expense(token,
-                                                       expense_value, descrption, category)
+                                                       expense_value, payed_date, descrption, category)
 
             if response.status_code == 201:
-                st.success("Despesa enviada e campos limpos!")
+                st.success("Despesa cadastrada")
 
             elif response.status_code != 201:
                 erro = response.json().get("message")

@@ -42,11 +42,9 @@ def create_acess_token(data: dict):
 
 
 def get_current_user(token: str = Depends(oauth2_scheme), uow: IUnitOfWork = Depends(get_uow)):
-    print(f"DEBUG: Token recebido: {token}")
     try:
         payload = decode(token, SECRET_KEY, algorithms=ALGORITHM)
         subject_email = payload.get('sub')
-        print(subject_email)
         if not subject_email:
             raise UnauthorizedLogin('Usuário não autorizado')
 

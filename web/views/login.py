@@ -11,13 +11,7 @@ def login_page():
 
     api_client = HomeSplitApi(BASE_URL)
 
-    st.set_page_config(
-        page_title="HomeSplit",
-        page_icon="🧮",
-        layout='wide'
-    )
-
-    st.title('HomeSplit - Gerenciador de Despesas Caseira')
+    st.title('Home Split - Gerenciador de Despesas Caseira')
     st.write("---")
 
     left_column, right_column = st.columns(2)

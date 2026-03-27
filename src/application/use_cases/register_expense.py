@@ -16,11 +16,13 @@ class AddExpense:
                 user_register = self.uow.user.get_user_by_id(id_user_register)
             except:
                 raise UserNotFound("Usuário não encontrado")
+            if expense_data.date == '' or expense_data.date == 'String' or expense_data.date == 'string':
+                expense_data.date = datetime.today()
             expense = Expense(
                 id=str(uuid.uuid4()),
                 expense_value=Money(expense_data.expense_value),
                 description=expense_data.description,
-                date=datetime.now(),
+                date=expense_data.date,
                 category=expense_data.category.value,
                 id_user=user_register.id
             )

@@ -8,9 +8,10 @@ class CategoryEnum(str, Enum):
     MERCADO = 'Mercado'
     INTERNET = 'Internet'
     ALUGUEL = 'Aluguel'
-    RACAO = 'Ração'
+    PETS = 'Pets'
     ENERGIA = 'Energia'
     AGUA = 'Água'
+    MANUTENCAO = 'Manutenção'
     OUTROS = 'Outros'
 
 
@@ -28,6 +29,7 @@ class ResponseUser(BaseModel):
 
 class RequestExpenseRegister(BaseModel):
     expense_value: Decimal
+    date: str
     description: str
     category: CategoryEnum
 
@@ -60,3 +62,12 @@ class ResponseExpenseWithNameUser(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class ResponseExpenseSumary(BaseModel):
+    total_spend: Decimal
+    top_category: str
+    top_value_category: Decimal
+    total_by_category: dict
+    total_by_week: dict
+    list_expenses: list

@@ -1,6 +1,7 @@
 from src.infrastructure.database import Base
 from sqlalchemy.orm import mapped_column, relationship, Mapped
-from sqlalchemy import ForeignKey, String, Numeric
+from sqlalchemy import ForeignKey, String, Numeric, Date
+from datetime import date
 
 
 class UserModel(Base):
@@ -19,7 +20,7 @@ class ExpenseModel(Base):
     expense_value: Mapped[str] = mapped_column(
         Numeric(precision=10, scale=2), nullable=False)
     description: Mapped[str] = mapped_column(String)
-    date: Mapped[str] = mapped_column(String, nullable=False)
+    date: Mapped[str] = mapped_column(String)
     category: Mapped[str] = mapped_column(String, nullable=False)
     id_user: Mapped[str] = mapped_column(String, ForeignKey('users.id'))
     user = relationship('UserModel', back_populates="expense")
