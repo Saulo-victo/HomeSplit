@@ -1,0 +1,15 @@
+fastapi[standard]
+uvicorn
+streamlit
+psycopg2-binary
+sqlalchemy
+python-multipart
+python-dotenv
+pandas
+requests
+pyjwt
+tzdata
+pytest
+datetime
+pwdlib[argon2]
+
