@@ -4,8 +4,9 @@ from src.domain.interfaces import IExpenseRepository, IUserRepository
 from decimal import Decimal
 from src.infrastructure.models import UserModel, ExpenseModel
 from src.domain.exceptions import ExpenseNotFound
-from datetime import datetime, date
-from sqlalchemy import extract
+from datetime import date
+from sqlalchemy import extract, cast, Date
+
 
 
 class SqlAlchemyUserRepository(IUserRepository):
@@ -91,7 +92,7 @@ class SqlAlchemyExpenseRepository(IExpenseRepository):
     def filter_by_month(self, search_month):
         current_year = date.today().year
         model_expense = self.session.query(ExpenseModel).filter(
-            extract('month', ExpenseModel.date) == search_month, extract('year', ExpenseModel.date) == current_year).all()
+            extract('month', cast(ExpenseModel.date, Date)) == search_month, extract('year', cast(ExpenseModel.date, Date)) == current_year).all()
 
         expenses = [ExpenseWithUserName(expense.id, expense.expense_value, expense.description,
                                         expense.date, expense.category, expense.id_user, expense.user.name)for expense in model_expense]
