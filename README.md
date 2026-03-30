@@ -9,6 +9,11 @@
 - Dahsboardo com acesso as transaçõe do mês ou outro de referência
 - Persistência com banco relacional
 
+## 💡Futuras funcionalidades
+- Isolamento de residência por grupo de usuários
+- Edição de despesas;
+- Cadastro de categorias de despesas
+
 ## 🛠️ Tecnologias
 
 - Python
@@ -46,6 +51,30 @@ Atenção: Basta conectar com um banco existente, o SqlAlchemy cuidará da cria�
 
 6. Rode o arquivo start.py
 <pre>python3 -m start</pre>
+
+## 🎥Demonstração
+
+- Tela de autenticação do usuário:
+  
+![gif01](https://github.com/user-attachments/assets/9c4809a8-937c-4de0-8bc9-d4216a45466e)
+
+- Tela de cadastro de despesa
+  
+![gif02](https://github.com/user-attachments/assets/60600c69-fc98-47c2-891e-f0eacb6af422)
+
+- Exclusão de despesa e filtro por mês
+  
+![gif03](https://github.com/user-attachments/assets/92fa196f-a004-4046-95c2-603312c4db81)
+
+- API Documentada via swegger com os endpoints
+  
+![gif04](https://github.com/user-attachments/assets/b161aa04-b726-4f14-8842-5cc6d94363ed)
+
+
+
+
+“Melhoria contínua é melhor do que perfeição adiada.” — Mark Twain
+#### Desenvolvido por Saulo Victo Soares.
 
 
 
